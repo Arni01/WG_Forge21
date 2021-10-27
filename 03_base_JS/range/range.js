@@ -1,64 +1,56 @@
-// const getArray = (from = 0, to, step = 1) => {
-//   let result = [];
-//   step = step !== 0 ? step : 1;
-//   // if (to > from) {
-//   //   for (let i = from; i < to; i += step) {
-//   //     result.push(i);
-//   //   }
-//   // } else {
-//   console.log('dop');
-//   for (let i = from; i > to; i -= Math.abs(step)) {
-//     result.push(i);
-//   }
-//   // }
-//   return result;
-// };
-// const range = (...arg) => {
-//   switch (arg.length) {
-//     case 1:
-//       return getArray(undefined, arg[0]);
-//     case 2:
-//       return getArray(arg[0], arg[1]);
-//     case 3:
-//       return getArray(arg[0], arg[1], arg[2]);
-//   }
-// };
-
-const range = (n, r, t) => {
-  // if (n === r) return [n];
-  // null == r && ((r = n || 0), (n = 0));
-  // // (t = r < n ? -1 : 1);
-  // // if (r < n) {
-  // //   t = t ? -t : -1;
-  // // } else {
-  // //   t = t ? t : 1;
-  // // }
-  // for (
-  //   var e = Math.max(Math.ceil((r - n) / t), 0), u = Array(e), i = 0;
-  //   i < e;
-  //   i++, n += t
-  // ) {
-  //   u[i] = n;
-  // }
-  result = [];
-
-  if (n > r) {
-    for (let i = n; i > r; i -= t) {
+const getArray = (from = 0, to, step) => {
+  let result = [];
+  step = step ? step : 1;
+  if (to > from) {
+    if (step < 1) return [];
+    for (let i = from; i < to; i += step) {
+      result.push(i);
+    }
+  } else {
+    for (let i = from; i > to; i -= Math.abs(step)) {
       result.push(i);
     }
   }
-
   return result;
 };
+const range = (...arg) => {
+  switch (arg.length) {
+    case 1:
+      if (arg[0] < 0) return [];
+      return getArray(undefined, arg[0]);
+    case 2:
+      if (arg[0] === arg[1]) return [arg[0]];
+      return getArray(arg[0], arg[1]);
+    case 3:
+      return getArray(arg[0], arg[1], arg[2]);
+    default:
+      return [undefined];
+  }
+};
 
-// console.log(range(10, 0, 2));
+const range2 = (n, r, t) => {
+  if (n === r) return [n];
+  if (r == null && n < 0) return [];
+  null == r && ((r = n || 0), (n = 0)), t || (t = r < n ? -1 : 1);
+  for (
+    var e = Math.max(Math.ceil((r - n) / t), 0), u = Array(e), i = 0;
+    i < e;
+    i++, n += t
+  ) {
+    u[i] = n;
+  }
+  return u;
+};
+// console.log(range(7, 8));
+// console.log(range(-5));
+// console.log(range2(-5));
 
 // console.log(range(10, -2, 2));
-// console.log(range(10, 0, 1.1));
-// console.log(range(1, 3, 0));
+console.log(range(0, 5, 1.1));
+console.log(range2(0, 5, 1.1));
+// console.log(range());
 // console.log(range(3, 1, 2));
-// console.log(range(-1, -11, -2));
-// console.log(range2(-1, -11, -2));
+// console.log(range(-1, 11));
 // console.log(-11 > -1);
 
 module.exports = range;
