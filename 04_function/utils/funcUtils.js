@@ -1,0 +1,75 @@
+const FuncUtils = {
+  _getArrayArgumenst: function (arr, index) {
+    let arg = [];
+
+    for (let i = index || 0; i < arr.length; i++) {
+      arg.push(arr[i]);
+    }
+    return arg;
+  },
+  _getArrStr: function (arr) {
+    if (!arr) arr = [];
+    let str = '';
+    for (var i = 0; i < arr.length; i++) {
+      if (typeof arr[i] === 'string') {
+        str += '"' + arr[i] + '"';
+      } else {
+        str += '' + arr[i] + '';
+      }
+      if (i + 1 < arr.length) str += ',';
+    }
+    return str;
+  },
+  bind: function (func, obj) {
+    if (typeof func !== 'function') throw 'Func is not a function';
+    let arg = FuncUtils._getArrayArgumenst(arguments, 2);
+
+    return function () {
+      let argPass = arg.concat(FuncUtils._getArrayArgumenst(arguments));
+      return FuncUtils.apply(func, obj, argPass);
+    };
+  },
+  call: function (func, obj) {
+    let arg = FuncUtils._getArrayArgumenst(arguments, 2);
+    return FuncUtils.apply(func, obj, arg);
+  },
+  apply: function (func, obj, arr) {
+    if (typeof func !== 'function') throw 'Func is not a function';
+    const index = Date.now().toString();
+    argPassStr = FuncUtils._getArrStr(arr);
+
+    if (!obj) {
+      obj = {};
+    }
+    obj.__proto__[index] = func;
+
+    const result = eval('obj[' + index + '](' + argPassStr + ')');
+    delete obj.__proto__[index];
+    return result;
+  },
+};
+
+// const person = {
+//   name: 'John',
+//   age: 42,
+// };
+
+// function getAge() {
+//   return this.age;
+// }
+
+// function getSum(a, b, c) {
+//   return a + b + c;
+// }
+
+// const bindedGetAge = FuncUtils.bind(getAge, person);
+// console.log('my_bind', bindedGetAge());
+// console.log('bind', getAge.bind(person)(1, 2));
+
+// console.log('my_call', FuncUtils.call(getSum, person, 1, 2, 3));
+// console.log('call', getSum.call(person, 1, 2, 3));
+
+// console.log('my_apply', FuncUtils.apply(getSum, null));
+// console.log('apply', getSum.apply(null));
+
+module.exports = FuncUtils;
