@@ -12,7 +12,7 @@ const range = (from, to, step) => {
     from = 0;
   }
   let length = Math.max(Math.ceil((to - from) / step), 0);
-  // if (!length && length !== 0) throw 'А для чего это ошибка ообще нужна?';
+  // if (!length && length !== 0) throw 'А для чего это ошибка вообще нужна?';
   let test = Array(length);
 
   for (let i = 0; i < length; i++) {
@@ -22,5 +22,7 @@ const range = (from, to, step) => {
 
   return result;
 };
+
+console.log(range(5, 0, null));
 
 module.exports = range;
