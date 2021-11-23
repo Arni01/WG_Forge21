@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@300;400;600;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        font-family: 'Source Serif Pro', serif;
+        font-weight: 600;
+      }
+      body,
+      html {
+        height: 100%;
+        width: 100%;
+      }
+      h1,
+      body {
+        margin: 0;
+      }
+
+      body,
+      button {
+        text-shadow: 2px 2px 4px rgb(0, 0, 0);
+      }
+
+      #container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+
+        height: 100%;
+        width: 100%;
+        background: url('./image.jpg') no-repeat;
+        background-size: cover;
+      }
+
+      .ghost {
+        transition: transform 0.25s ease, opacity 1.25s ease-in;
+      }
+
+      .cancel-btn {
+        border: none;
+        border-radius: 10px;
+        text-transform: uppercase;
+        color: white;
+        background: red;
+        padding: 1em;
+        cursor: pointer;
+        margin-bottom: 1.5em;
+        box-shadow: 4px 4px 8px 0px rgba(255, 0, 0, 0.4);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <h1>Thanks for your purchase of 15,000 GLD!</h1>
+      <h2 class="cancel-header">Below is your last chance to cancel.</h2>
+      <div class="ghost">
+        <button class="cancel-btn" type="button">Cancel</button>
+      </div>
+    </div>
+    <script>
+      const randomValue = 20;
+      const maxAttempts = 10;
+      const words = [
+        'nice try',
+        'whew close!',
+        'missed me!',
+        'are you even trying?',
+        'too slow!',
+        'given up yet?',
+        "you'll never catch me!",
+      ];
+
+      const cancelButton = document.querySelector('.cancel-btn');
+      const cancelHeader = document.querySelector('.cancel-header');
+      const ghost = document.querySelector('.ghost');
+      let pityCount = 0;
+
+      function getRandomInt(min, max) {
+        return Math.round(min - 0.5 + Math.random() * (max - min + 1));
+      }
+
+      function runAway(e) {
+        if (pityCount < maxAttempts) {
+          pityCount += 1;
+          let translateX = getRandomInt(-randomValue, randomValue);
+          let translateY = getRandomInt(-randomValue, randomValue);
+          cancelButton.innerHTML = words[getRandomInt(0, words.length - 1)];
+
+          ghost.style.transform = `translate(${translateX}vw, ${translateY}vh)`;
+        } else {
+          cancelButton.innerHTML = "Ok, I'm tired and I'm leave";
+          cancelHeader.innerHTML = 'Your purchase was successful.';
+          ghost.style.opacity = 0;
+          ghost.style.pointerEvents = 'none';
+        }
+      }
+
+      cancelButton.addEventListener('mouseover', runAway);
+    </script>
+  </body>
+</html>
